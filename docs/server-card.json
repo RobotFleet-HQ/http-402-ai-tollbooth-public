@@ -1,0 +1,53 @@
+{
+  "name": "HTTP 402 AI Tollbooth",
+  "description": "Lightning-powered API error intelligence for AI agents. Pay per-request over Lightning Network with zero accounts, zero OAuth, just pure HTTP 402.",
+  "version": "1.0.0",
+  "capabilities": {
+    "tools": true,
+    "resources": false,
+    "prompts": false
+  },
+  "tools": [
+    {
+      "name": "list_products",
+      "description": "List all available products in the catalog",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    {
+      "name": "preview_product",
+      "description": "Get 3-item free preview of any product (no payment required)",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "product": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "product"
+        ]
+      }
+    },
+    {
+      "name": "buy_product",
+      "description": "Purchase full dataset. Returns HTTP 402 with Lightning invoice. Pay invoice, then retry with preimage in headers.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "product": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "product"
+        ]
+      }
+    }
+  ],
+  "transport": "http",
+  "baseUrl": "https://http-402-ai-tollbooth.rsaun-lightning.workers.dev"
+}

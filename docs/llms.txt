@@ -1,0 +1,17 @@
+# HTTP 402 AI Tollbooth
+
+> A Bitcoin Lightning HTTP 402 marketplace offering 203 machine-readable developer troubleshooting datasets across DevOps, APIs, ML/AI, Web/Frontend, and Databases.
+
+## Discovery
+- Catalog: https://http-402-ai-tollbooth.rsaun-lightning.workers.dev/api/catalog
+- Categories: https://http-402-ai-tollbooth.rsaun-lightning.workers.dev/api/categories
+- Free preview: https://http-402-ai-tollbooth.rsaun-lightning.workers.dev/api/preview/{product}
+- OpenAPI 3.1: https://http-402-ai-tollbooth.rsaun-lightning.workers.dev/openapi.json
+- MCP manifest: https://http-402-ai-tollbooth.rsaun-lightning.workers.dev/.well-known/mcp.json
+- Payment guide: https://http-402-ai-tollbooth.rsaun-lightning.workers.dev/docs/payment-flow
+
+## Payment model
+Requesting a paid product returns HTTP 402 with a mainnet BOLT11 invoice, payment hash, price, preview URL, and instructions. After payment, retry once with X-Payment-Hash and X-Payment-Preimage. Entry products cost 2,000 sats for 50 records; Standard costs 5,000 sats for 100; Premium costs 10,000 sats for 200.
+
+## Record contract
+Every paid record contains non-empty error_code, description, and programmatic_fix strings. Free previews return exactly three records and never require payment.

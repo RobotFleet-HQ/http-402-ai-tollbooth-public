@@ -1,0 +1,618 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "HTTP 402 AI Tollbooth",
+    "version": "2.0.0",
+    "description": "A Bitcoin Lightning HTTP 402 marketplace offering 203 machine-readable developer troubleshooting datasets across DevOps, APIs, ML/AI, Web/Frontend, and Databases."
+  },
+  "servers": [
+    {
+      "url": "https://http-402-ai-tollbooth.rsaun-lightning.workers.dev"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Human landing page",
+        "responses": {
+          "200": {
+            "description": "HTML landing page"
+          }
+        }
+      }
+    },
+    "/web": {
+      "get": {
+        "summary": "Browse products in HTML",
+        "responses": {
+          "200": {
+            "description": "HTML catalog"
+          }
+        }
+      }
+    },
+    "/web/preview/{product}": {
+      "get": {
+        "summary": "Human product preview",
+        "parameters": [
+          {
+            "name": "product",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Product ID from /api/catalog"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "HTML preview"
+          },
+          "404": {
+            "description": "Unknown product",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/buy/{product}": {
+      "get": {
+        "summary": "Human invoice page",
+        "parameters": [
+          {
+            "name": "product",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Product ID from /api/catalog"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "HTML invoice page"
+          },
+          "404": {
+            "description": "Unknown product",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Payment gateway unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/redeem": {
+      "get": {
+        "summary": "Human redemption form",
+        "responses": {
+          "200": {
+            "description": "HTML redemption form"
+          }
+        }
+      }
+    },
+    "/docs/payment-flow": {
+      "get": {
+        "summary": "Payment instructions",
+        "responses": {
+          "200": {
+            "description": "HTML documentation"
+          }
+        }
+      }
+    },
+    "/api/catalog": {
+      "get": {
+        "operationId": "listProducts",
+        "summary": "List products",
+        "responses": {
+          "200": {
+            "description": "Complete product catalog",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/categories": {
+      "get": {
+        "operationId": "listCategories",
+        "summary": "List super-categories",
+        "responses": {
+          "200": {
+            "description": "Category counts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/preview": {
+      "get": {
+        "operationId": "previewDefaultProduct",
+        "summary": "Preview api-error-fixes",
+        "responses": {
+          "200": {
+            "description": "Three free records",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Preview rate limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/preview/{product}": {
+      "get": {
+        "operationId": "previewProduct",
+        "summary": "Preview a product",
+        "parameters": [
+          {
+            "name": "product",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Product ID from /api/catalog"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Exactly three free records",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items",
+                    "upgrade_url",
+                    "price_sats",
+                    "message"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "minItems": 3,
+                      "maxItems": 3,
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "error_code",
+                          "description",
+                          "programmatic_fix"
+                        ],
+                        "properties": {
+                          "error_code": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "description": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "programmatic_fix": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    },
+                    "upgrade_url": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "price_sats": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Unknown product",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Preview rate limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/data": {
+      "get": {
+        "operationId": "buyDefaultProduct",
+        "summary": "Buy api-error-fixes",
+        "responses": {
+          "200": {
+            "description": "Paid dataset",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or spent proof",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Lightning payment required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/data/{product}": {
+      "get": {
+        "operationId": "buyProduct",
+        "summary": "Buy a product",
+        "parameters": [
+          {
+            "name": "product",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Product ID from /api/catalog"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paid dataset",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or spent proof",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Lightning payment required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Unknown product",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/bundle/{product}": {
+      "get": {
+        "operationId": "buyBundle",
+        "summary": "Buy a bundle",
+        "parameters": [
+          {
+            "name": "product",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Product ID from /api/catalog"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paid bundle dataset",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Lightning payment required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Unknown bundle",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/qr": {
+      "get": {
+        "summary": "Render a BOLT11 QR code",
+        "parameters": [
+          {
+            "name": "invoice",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "PNG QR code",
+            "content": {
+              "image/png": {}
+            }
+          },
+          "400": {
+            "description": "Invalid invoice",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/.well-known/mcp.json": {
+      "get": {
+        "summary": "MCP manifest",
+        "responses": {
+          "200": {
+            "description": "MCP server manifest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/.well-known/mcp/server-card.json": {
+      "get": {
+        "summary": "Smithery MCP server card",
+        "responses": {
+          "200": {
+            "description": "Smithery MCP server card",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/.well-known/ai-plugin.json": {
+      "get": {
+        "summary": "AI plugin manifest",
+        "responses": {
+          "200": {
+            "description": "AI plugin manifest",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/openapi.json": {
+      "get": {
+        "summary": "OpenAPI specification",
+        "responses": {
+          "200": {
+            "description": "OpenAPI 3.1 document",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/llms.txt": {
+      "get": {
+        "summary": "Concise LLM discovery document",
+        "responses": {
+          "200": {
+            "description": "Plain text discovery document"
+          }
+        }
+      }
+    },
+    "/llms-full.txt": {
+      "get": {
+        "summary": "Full LLM discovery document",
+        "responses": {
+          "200": {
+            "description": "Plain text catalog and discovery document"
+          }
+        }
+      }
+    },
+    "/robots.txt": {
+      "get": {
+        "summary": "Crawler policy",
+        "responses": {
+          "200": {
+            "description": "Robots text"
+          }
+        }
+      }
+    },
+    "/sitemap.xml": {
+      "get": {
+        "summary": "Public sitemap",
+        "responses": {
+          "200": {
+            "description": "XML sitemap"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ErrorFix": {
+        "type": "object",
+        "required": [
+          "error_code",
+          "description",
+          "programmatic_fix"
+        ],
+        "properties": {
+          "error_code": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "programmatic_fix": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}
