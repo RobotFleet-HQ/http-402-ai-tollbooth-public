@@ -1,0 +1,8 @@
+{
+  "name": "tollbooth-node-agent-recovery",
+  "version": "1.0.0",
+  "private": false,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": { "test": "node --test", "start": "node demo.mjs" }
+}

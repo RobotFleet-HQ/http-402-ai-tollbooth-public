@@ -6,7 +6,7 @@
 
 HTTP 402 AI Tollbooth gives developers and AI agents three useful records free, then unlocks complete structured datasets with a BOLT11 Lightning payment. There are no accounts, subscriptions, credit cards, or API keys.
 
-This is a public, documentation-only billboard repository. The production Worker implementation remains private and is not included here.
+This is a public, documentation and example repository. The production Worker implementation remains private and is not included here.
 
 ## Try it now
 
@@ -89,10 +89,25 @@ Never publish or share a payment preimage before using it for its intended redem
 ## Integrations
 
 - **MCP metadata:** tool descriptions for catalog, preview, and purchase discovery
+- **MCP transport:** a live Streamable HTTP JSON-RPC endpoint at `/mcp` with four read-only tools
 - **OpenAPI:** complete HTTP endpoint descriptions for agent frameworks
 - **LLMs.txt:** concise machine-readable project and payment guidance
 
-Important: the live service currently provides MCP discovery metadata, not a native Streamable HTTP MCP JSON-RPC transport. Registry submission requiring a real MCP initialization endpoint is blocked until `/mcp` is implemented and deployed.
+Connect an MCP client to `https://http-402-ai-tollbooth.rsaun-lightning.workers.dev/mcp`. The server supports `list_products`, `preview_product`, `list_payment_methods`, and `buy_product`. The last tool only returns payment directions and an HTTP 402 challenge; it never pays an invoice or creates a purchase on the caller's behalf.
+
+For a complete no-payment example, see [the Node agent recovery sample](examples/node-agent-recovery/).
+
+## Runnable free sample
+
+The sample shows how an agent can inspect malformed JSON, retry a transient `429` once after `Retry-After`, and safely stop when a response is not recoverable. It uses Node 22+ built-ins only:
+
+```bash
+cd examples/node-agent-recovery
+npm test
+npm start
+```
+
+The demo calls only the public three-record preview endpoint. It does not call a paid route, create an invoice, or automatically replay a payment proof.
 
 ## License
 

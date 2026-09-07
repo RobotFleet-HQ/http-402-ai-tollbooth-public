@@ -33,8 +33,17 @@
       }
     },
     {
+      "name": "list_payment_methods",
+      "description": "List currently configured payment rails and their availability.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      }
+    },
+    {
       "name": "buy_product",
-      "description": "Purchase full dataset. Returns HTTP 402 with Lightning invoice. Pay invoice, then retry with preimage in headers.",
+      "description": "Explain how to request a paid product and handle its HTTP 402 challenge; this tool never pays or creates an invoice.",
       "inputSchema": {
         "type": "object",
         "properties": {
