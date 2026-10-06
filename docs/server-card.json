@@ -1,7 +1,7 @@
 {
   "name": "HTTP 402 AI Tollbooth",
-  "description": "Lightning-powered API error intelligence for AI agents. Pay per-request over Lightning Network with zero accounts, zero OAuth, just pure HTTP 402.",
-  "version": "1.0.0",
+  "description": "Multi-rail developer troubleshooting data for AI agents with free previews and explicit payment discovery.",
+  "version": "2.1.0",
   "capabilities": {
     "tools": true,
     "resources": false,
@@ -10,7 +10,7 @@
   "tools": [
     {
       "name": "list_products",
-      "description": "List all available products in the catalog",
+      "description": "List all products, categories, tiers, prices, item counts, and endpoint paths.",
       "inputSchema": {
         "type": "object",
         "properties": {},
@@ -19,7 +19,7 @@
     },
     {
       "name": "preview_product",
-      "description": "Get 3-item free preview of any product (no payment required)",
+      "description": "Get exactly three free sample records before purchase.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -34,7 +34,7 @@
     },
     {
       "name": "list_payment_methods",
-      "description": "List currently configured payment rails and their availability.",
+      "description": "List the currently enabled payment rails and their public machine-readable contracts.",
       "inputSchema": {
         "type": "object",
         "properties": {},
@@ -43,7 +43,7 @@
     },
     {
       "name": "buy_product",
-      "description": "Explain how to request a paid product and handle its HTTP 402 challenge; this tool never pays or creates an invoice.",
+      "description": "Return purchase directions for a product without initiating or paying a transaction.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -57,6 +57,6 @@
       }
     }
   ],
-  "transport": "http",
-  "baseUrl": "https://http-402-ai-tollbooth.rsaun-lightning.workers.dev"
+  "transport": "streamable-http",
+  "baseUrl": "https://http-402-ai-tollbooth.rsaun-lightning.workers.dev/mcp"
 }
