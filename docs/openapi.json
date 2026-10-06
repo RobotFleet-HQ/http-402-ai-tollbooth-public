@@ -2,8 +2,12 @@
   "openapi": "3.1.0",
   "info": {
     "title": "HTTP 402 AI Tollbooth",
-    "version": "2.0.0",
-    "description": "A Bitcoin Lightning HTTP 402 marketplace offering 203 machine-readable developer troubleshooting datasets across DevOps, APIs, ML/AI, Web/Frontend, and Databases."
+    "version": "2.1.0",
+    "description": "A multi-rail HTTP 402 marketplace offering 203 machine-readable developer troubleshooting datasets across DevOps, APIs, ML/AI, Web/Frontend, and Databases.",
+    "contact": {
+      "name": "Tollbooth Support",
+      "email": "contact@tradedatahub.net"
+    }
   },
   "servers": [
     {
@@ -307,7 +311,7 @@
             }
           },
           "402": {
-            "description": "Lightning payment required",
+            "description": "Payment required; x402 is preferred when enabled and Lightning proof remains supported",
             "content": {
               "application/json": {
                 "schema": {
@@ -366,7 +370,7 @@
             }
           },
           "402": {
-            "description": "Lightning payment required",
+            "description": "Payment required; x402 is preferred when enabled and Lightning proof remains supported",
             "content": {
               "application/json": {
                 "schema": {
@@ -425,7 +429,7 @@
             }
           },
           "402": {
-            "description": "Lightning payment required",
+            "description": "Payment required",
             "content": {
               "application/json": {
                 "schema": {
@@ -587,6 +591,291 @@
           }
         }
       }
+    },
+    "/contact": {
+      "get": {
+        "summary": "Support contact page",
+        "responses": {
+          "200": {
+            "description": "HTML contact page"
+          }
+        }
+      }
+    },
+    "/api/payment-methods": {
+      "get": {
+        "operationId": "listPaymentMethods",
+        "summary": "List enabled payment rails",
+        "responses": {
+          "200": {
+            "description": "Payment method registry",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/stripe/checkout": {
+      "post": {
+        "operationId": "createStripeCheckout",
+        "summary": "Create a hosted Stripe Checkout Session",
+        "responses": {
+          "200": {
+            "description": "Checkout Session created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Unknown product",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Stripe Checkout unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/stripe/redeem": {
+      "get": {
+        "operationId": "redeemStripeCheckout",
+        "summary": "Verify and redeem a paid Stripe Checkout Session",
+        "responses": {
+          "200": {
+            "description": "Paid dataset",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment not verified",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Checkout Session already redeemed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Stripe verification unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/stripe/webhook": {
+      "post": {
+        "operationId": "stripeWebhook",
+        "summary": "Receive signed Stripe webhook events",
+        "responses": {
+          "200": {
+            "description": "Event received",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid signature",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Webhook unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/stripe/buy/{product}": {
+      "get": {
+        "summary": "Human Stripe Checkout launch page",
+        "responses": {
+          "200": {
+            "description": "HTML Stripe launch page"
+          },
+          "404": {
+            "description": "Unknown product",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Stripe Checkout unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/web/stripe/success": {
+      "get": {
+        "summary": "Stripe Checkout success/redeem page",
+        "responses": {
+          "200": {
+            "description": "HTML redemption result"
+          }
+        }
+      }
+    },
+    "/api/x402/agent-data": {
+      "get": {
+        "operationId": "buyViaX402",
+        "summary": "x402 Solana USDC purchase route",
+        "responses": {
+          "200": {
+            "description": "Paid dataset",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "x402 payment required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "x402 unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mcp": {
+      "get": {
+        "summary": "MCP transport metadata",
+        "responses": {
+          "200": {
+            "description": "MCP endpoint metadata",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "MCP Streamable HTTP JSON-RPC endpoint",
+        "responses": {
+          "200": {
+            "description": "JSON-RPC response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Notification accepted"
+          },
+          "400": {
+            "description": "Invalid JSON-RPC request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -614,5 +903,58 @@
         }
       }
     }
+  },
+  "x-payment-methods": {
+    "version": "1.0",
+    "methods": [
+      {
+        "id": "bitcoin-lightning",
+        "name": "Bitcoin Lightning",
+        "provider": "Lightning Network",
+        "protocol": "BOLT11 over HTTP 402",
+        "network": "Bitcoin Lightning mainnet",
+        "asset": "BTC (sats)",
+        "flow": "http-402-retry",
+        "audiences": [
+          "agent",
+          "human"
+        ],
+        "description": "Pay a BOLT11 invoice and retry with one-time settlement proof.",
+        "enabled": true
+      },
+      {
+        "id": "x402-solana-usdc",
+        "name": "x402 USDC on Solana",
+        "provider": "x402",
+        "protocol": "x402 v2 exact",
+        "network": "Solana mainnet",
+        "asset": "USDC",
+        "flow": "http-402-retry",
+        "audiences": [
+          "agent"
+        ],
+        "description": "Pay USDC through an x402 payment challenge and retry the request. No SOL required; facilitator handles network fees.",
+        "enabled": true,
+        "facilitator": "https://x402.dexter.cash",
+        "purchase_endpoint": "/api/x402/agent-data",
+        "audience": "agent",
+        "sol_required": false
+      },
+      {
+        "id": "stripe-checkout-card",
+        "name": "Card payment",
+        "provider": "Stripe Checkout",
+        "protocol": "Stripe Checkout Session",
+        "network": "Card networks",
+        "asset": "USD",
+        "flow": "hosted-checkout",
+        "audiences": [
+          "human",
+          "agent"
+        ],
+        "description": "Pay by card in Stripe-hosted Checkout and redeem the resulting entitlement.",
+        "enabled": true
+      }
+    ]
   }
 }
