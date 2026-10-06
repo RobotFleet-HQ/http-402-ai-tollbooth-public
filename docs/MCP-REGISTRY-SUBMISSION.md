@@ -1,8 +1,8 @@
 # Official MCP Registry Submission
 
-## Current status: ready for authenticated registry publication
+## Current status: runtime repair prepared; publish after live /mcp verification
 
-The Official MCP Registry accepts remote servers whose `remotes` entry points to a publicly accessible Streamable HTTP MCP endpoint. Tollbooth now exposes and has smoke-tested a JSON-RPC MCP initialization endpoint at `/mcp`, including `list_products`, `preview_product`, `list_payment_methods`, and `buy_product`.
+The Official MCP Registry accepts remote servers whose `remotes` entry points to a publicly accessible Streamable HTTP MCP endpoint. Tollbooth source now includes a JSON-RPC MCP endpoint at `/mcp` with `list_products`, `preview_product`, `list_payment_methods`, and `buy_product`. Registry publication must wait until the production `/mcp` route is verified live after deployment.
 
 Publish the checked-in root `server.json`. Static `server-card.json` metadata is supplemental and is not the registry payload.
 
@@ -43,7 +43,7 @@ There is no separate official submission form documented as a fallback. If CLI p
 
 - [ ] Review every billboard file and replace `<CONTACT_EMAIL>`.
 - [ ] Push billboard repo to GitHub as public.
-- [x] Implement, deploy, and verify a Streamable HTTP MCP endpoint at `/mcp`.
+- [x] Implement the Streamable HTTP MCP endpoint at `/mcp` in source.\n- [ ] Deploy and verify `GET /mcp`, JSON-RPC `initialize`, and `tools/list` in production.
 - [ ] Submit to Official MCP Registry with `mcp-publisher` (requires the publisher's GitHub device login).
 - [ ] Submit to MCP.so.
 - [ ] Submit to MCP Market.
