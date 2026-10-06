@@ -4,23 +4,28 @@ Live service: https://http-402-ai-tollbooth.rsaun-lightning.workers.dev
 
 ## Agent tools
 
-| Tool | Purpose | Public HTTP endpoint |
+| Tool | Purpose | Runtime |
 |---|---|---|
-| `list_products` | List available products, prices, tiers, and sizes | `/api/catalog` |
-| `preview_product` | Retrieve exactly three free records | `/api/preview/{product}` |
-| `buy_product` | Request the full dataset and receive an HTTP 402 invoice | `/api/data/{product}` |
+| `list_products` | List products, tiers, sizes, and public purchase paths | `POST /mcp` |
+| `preview_product` | Return three free sample records | `POST /mcp` |
+| `list_payment_methods` | Return enabled payment rails | `POST /mcp` |
+| `buy_product` | Return purchase directions without initiating payment | `POST /mcp` |
+
+MCP endpoint: `/mcp`  
+Payment registry: `/api/payment-methods`
+
+## Payment rails
+
+- **Bitcoin Lightning** — BOLT11 mainnet invoices; human checkout at `/web/buy/{product}`.
+- **x402 USDC on Solana** — x402 v2 exact challenge; production machine route enabled.
+- **Stripe Checkout** — hosted USD checkout; server-side paid-session verification before one-time redemption.
 
 ## Pricing
 
-- Entry: 2,000 sats for 50 records
-- Standard: 5,000 sats for 100 records
-- Premium: 10,000 sats for 200 records
-
-## Payment
-
-The live flow uses Bitcoin Lightning. The paid endpoint returns a BOLT11 invoice and payment hash. After payment, retry with `X-Payment-Hash` and `X-Payment-Preimage`. The proof is single-use.
-
-x402 settlement over Solana USDC is planned but disabled until its readiness check and manual $0.01 receipt verification have passed.
+- Entry: 2,000 sats / $1.99 / 50 records
+- Standard: 5,000 sats / $4.99 / 100 records
+- Premium: 10,000 sats / $9.99 / 200 records
+- x402 route currently advertises $0.01 USDC on Solana mainnet.
 
 ## Machine-readable specifications
 
@@ -31,4 +36,4 @@ x402 settlement over Solana USDC is planned but disabled until its readiness che
 
 ## Contact
 
-Contact: `<CONTACT_EMAIL>`
+contact@tradedatahub.net
